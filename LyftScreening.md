@@ -136,7 +136,7 @@ class Fetcher {
         // return first 10 to user
         // cache 90 for next run
 
-        if(numResults == 0){
+        if(numResults <= 0){
           return resultList;
         }
 
@@ -161,21 +161,22 @@ class Fetcher {
 
           // resultList = getResults(numResults);
 
-          int expectedResultSize=numResults;
+          int remainingSize=numResults;
 
-          while(resultList.size() < expectedResultSize){
+          while(resultList.size() < numResults){
 
             fetchNextPage(currentPage);
             if(!isClientExhausted){
+              remainingSize = numResults - resultList.size();
 
-              resultList.addAll(getResults(expectedResultSize));
+              resultList.addAll(getResults(remainingSize));
 
             } else{
               break;
             }
             
 
-            expectedResultSize = expectedResultSize - resultList.size();
+           
 
           }
 
